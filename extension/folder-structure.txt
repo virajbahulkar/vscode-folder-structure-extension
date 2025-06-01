@@ -1,0 +1,18 @@
+microfrontend-platform/
+  app-shell/
+    public/
+    src/
+      App.js
+    Dockerfile
+    package.json
+  dashboard/
+    src/
+      App.js
+    Dockerfile
+  ui-components/
+    src/
+      Button.js
+      Modal.js
+    package.json
+docker-compose.yml
+README.md
