@@ -72,6 +72,8 @@ helpers/
   pqr.js
 </pre>
 
+app/data/api.json,config.json+app/helpers/abc.js,pqr.js
+
 <pre>
 app/
   data/
