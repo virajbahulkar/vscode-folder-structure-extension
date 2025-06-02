@@ -25,13 +25,15 @@ This VS Code extension helps you quickly scaffold folders and files using one of
 Use indentation to denote folder hierarchy.
 Folders end with a trailing slash `/`.
 
-``src/
+<pre>
+```src/
 components/
 Button.tsx
 Modal.tsx
 utils/
 helpers.js
-README.md``
+README.md```
+</pre>
 
 ---
 
@@ -39,13 +41,15 @@ README.md``
 
 Use tree-like characters (`├──`, `└──`, `│`) to represent structure.
 
-``src
+<pre>
+```src
 ├── components
 │ ├── Button.tsx
 │ └── Modal.tsx
 └── utils
 └── helpers.js
-README.md``
+README.md```
+</pre>
 
 ---
 
@@ -57,14 +61,16 @@ src/components/Button.tsx,Modal.tsx,Card.tsx+helpers/abc.js,pqr.js
 
 This will create:
 
-``src/
+<pre>
+```src/
 components/
 Button.tsx
 Modal.tsx
 Card.tsx
 helpers/
 abc.js
-pqr.js``
+pqr.js```
+</pre>
 
 ---
 
