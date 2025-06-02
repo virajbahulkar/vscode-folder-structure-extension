@@ -4,7 +4,7 @@ This VS Code extension helps you quickly scaffold folders and files using one of
 
 ### ✅ Features
 
-- Paste from clipboard or input box
+- Paste from the clipboard or input box
 - Supports indented, slash-based, and tree structures
 - Supports multi-file shorthand syntax (comma-separated files under folders)
 - Automatically creates nested folders and files
@@ -14,7 +14,7 @@ This VS Code extension helps you quickly scaffold folders and files using one of
 
 1. Open the command palette (⇧⌘P / Ctrl+Shift+P)
 2. Run: `Generate Folder Structure`
-3. Paste your folder structure or enter manually
+3. Paste your folder structure or enter it manually
 
 ---
 
@@ -26,13 +26,13 @@ Use indentation to denote folder hierarchy.
 Folders end with a trailing slash `/`.
 
 <pre>
-``src/
-components/
-Button.tsx
-Modal.tsx
+src/
+  components/
+    Button.tsx
+    Modal.tsx
 utils/
-helpers.js
-README.md``
+  helpers.js
+README.md
 </pre>
 
 ---
@@ -42,13 +42,13 @@ README.md``
 Use tree-like characters (`├──`, `└──`, `│`) to represent structure.
 
 <pre>
-``src
-├── components
+src/
+├── components/
 │ ├── Button.tsx
 │ └── Modal.tsx
-└── utils
-└── helpers.js
-README.md``
+└── utils/
+└──  helpers.js
+README.md
 </pre>
 
 ---
@@ -62,14 +62,24 @@ src/components/Button.tsx,Modal.tsx,Card.tsx+helpers/abc.js,pqr.js
 This will create:
 
 <pre>
-``src/
-components/
-Button.tsx
-Modal.tsx
-Card.tsx
+src/
+  components/
+    Button.tsx
+    Modal.tsx
+    Card.tsx
 helpers/
-abc.js
-pqr.js``
+  abc.js
+  pqr.js
+</pre>
+
+<pre>
+app/
+  data/
+    api.json
+    config.json
+  helpers/
+    abc.js
+    pqr.js
 </pre>
 
 ---
