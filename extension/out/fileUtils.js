@@ -36,19 +36,12 @@ function detectFormat(lines) {
 function normalizePaths(lines) {
     const seen = new Set();
     const knownFiles = new Set([
-        'Dockerfile',
-        '.gitignore',
-        'package.json',
-        'tsconfig.json',
-        'README.md',
-        'App.js',
-        'Button.js',
-        'Modal.js',
-        'launch.json',
-        'extension.ts',
-        'fileUtils.ts'
+        'Dockerfile', '.gitignore', 'package.json', 'tsconfig.json',
+        'README.md', 'App.js', 'Button.js', 'Modal.js', 'launch.json',
+        'extension.ts', 'fileUtils.ts'
     ]);
     return lines
+        .flatMap(line => line.split(',')) // split comma-separated paths
         .map(line => line.trim().replace(/\r/g, '').replace(/^\.\//, '').replace(/^\/+/, '').trimEnd())
         .map(line => {
         const clean = line.replace(/\/+$/, '');

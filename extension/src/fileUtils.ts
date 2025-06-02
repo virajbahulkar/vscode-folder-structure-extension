@@ -6,6 +6,12 @@ export function parseStructure(input: string): string[] {
 
   if (cleanedLines.length === 0) return [];
 
+  // New check for grouped multi-file syntax using '+'
+  const containsGroupedPaths = cleanedLines.some(line => line.includes('+'));
+  if (containsGroupedPaths) {
+    return parseGroupedPaths(cleanedLines);
+  }
+
   const preprocessedLines = preprocessTreeChars(cleanedLines);
   const format = detectFormat(preprocessedLines);
 
@@ -20,7 +26,6 @@ export function parseStructure(input: string): string[] {
       return normalizePaths(preprocessedLines);
   }
 }
-
 
 type StructureFormat = 'slash' | 'indented' | 'tree' | 'unknown';
 
@@ -144,3 +149,40 @@ function preprocessTreeChars(lines: string[]): string[] {
   );
 }
 
+// === NEW FUNCTION ADDED FOR GROUPED PATHS ===
+
+function parseGroupedPaths(lines: string[]): string[] {
+  const result: string[] = [];
+  const seen = new Set<string>();
+
+  lines.forEach(line => {
+    const groups = line.split('+').map(g => g.trim());
+
+    groups.forEach(group => {
+      const lastSlashIndex = group.lastIndexOf('/');
+
+      if (lastSlashIndex === -1) {
+        if (!seen.has(group)) {
+          result.push(group);
+          seen.add(group);
+        }
+        return;
+      }
+
+      const folderPath = group.substring(0, lastSlashIndex);
+      const filesPart = group.substring(lastSlashIndex + 1);
+
+      const files = filesPart.split(',').map(f => f.trim());
+
+      files.forEach(file => {
+        const fullPath = `${folderPath}/${file}`;
+        if (!seen.has(fullPath)) {
+          result.push(fullPath);
+          seen.add(fullPath);
+        }
+      });
+    });
+  });
+
+  return result;
+}
