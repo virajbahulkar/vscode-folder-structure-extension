@@ -8,6 +8,11 @@ function parseStructure(input) {
         .filter(line => line.trim() !== '');
     if (cleanedLines.length === 0)
         return [];
+    // New check for grouped multi-file syntax using '+'
+    const containsGroupedPaths = cleanedLines.some(line => line.includes('+'));
+    if (containsGroupedPaths) {
+        return parseGroupedPaths(cleanedLines);
+    }
     const preprocessedLines = preprocessTreeChars(cleanedLines);
     const format = detectFormat(preprocessedLines);
     switch (format) {
@@ -36,12 +41,19 @@ function detectFormat(lines) {
 function normalizePaths(lines) {
     const seen = new Set();
     const knownFiles = new Set([
-        'Dockerfile', '.gitignore', 'package.json', 'tsconfig.json',
-        'README.md', 'App.js', 'Button.js', 'Modal.js', 'launch.json',
-        'extension.ts', 'fileUtils.ts'
+        'Dockerfile',
+        '.gitignore',
+        'package.json',
+        'tsconfig.json',
+        'README.md',
+        'App.js',
+        'Button.js',
+        'Modal.js',
+        'launch.json',
+        'extension.ts',
+        'fileUtils.ts'
     ]);
     return lines
-        .flatMap(line => line.split(',')) // split comma-separated paths
         .map(line => line.trim().replace(/\r/g, '').replace(/^\.\//, '').replace(/^\/+/, '').trimEnd())
         .map(line => {
         const clean = line.replace(/\/+$/, '');
@@ -116,5 +128,34 @@ function preprocessTreeChars(lines) {
         .replace(/[├└]── /g, '    ') // Replace ├── or └── with 4 spaces
         .replace(/│/g, ' ') // Replace │ with space
     );
+}
+// === NEW FUNCTION ADDED FOR GROUPED PATHS ===
+function parseGroupedPaths(lines) {
+    const result = [];
+    const seen = new Set();
+    lines.forEach(line => {
+        const groups = line.split('+').map(g => g.trim());
+        groups.forEach(group => {
+            const lastSlashIndex = group.lastIndexOf('/');
+            if (lastSlashIndex === -1) {
+                if (!seen.has(group)) {
+                    result.push(group);
+                    seen.add(group);
+                }
+                return;
+            }
+            const folderPath = group.substring(0, lastSlashIndex);
+            const filesPart = group.substring(lastSlashIndex + 1);
+            const files = filesPart.split(',').map(f => f.trim());
+            files.forEach(file => {
+                const fullPath = `${folderPath}/${file}`;
+                if (!seen.has(fullPath)) {
+                    result.push(fullPath);
+                    seen.add(fullPath);
+                }
+            });
+        });
+    });
+    return result;
 }
 //# sourceMappingURL=fileUtils.js.map
