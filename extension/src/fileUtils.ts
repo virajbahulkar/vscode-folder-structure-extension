@@ -7,7 +7,7 @@ export function parseStructure(input: string): string[] {
   if (cleanedLines.length === 0) return [];
 
   // New check for grouped multi-file syntax using '+'
-  const containsGroupedPaths = cleanedLines.some(line => line.includes('+'));
+  const containsGroupedPaths = cleanedLines.some(line => line.includes('+') || line.includes(','));
   if (containsGroupedPaths) {
     return parseGroupedPaths(cleanedLines);
   }
@@ -156,29 +156,34 @@ function parseGroupedPaths(lines: string[]): string[] {
   const seen = new Set<string>();
 
   lines.forEach(line => {
-    const groups = line.split('+').map(g => g.trim());
+    const groups = line.includes('+') ? line.split('+').map(g => g.trim()) : [line];
 
     groups.forEach(group => {
-      const lastSlashIndex = group.lastIndexOf('/');
+      const parts = group.split(',').map(part => part.trim());
 
-      if (lastSlashIndex === -1) {
-        if (!seen.has(group)) {
-          result.push(group);
-          seen.add(group);
-        }
-        return;
-      }
-
-      const folderPath = group.substring(0, lastSlashIndex);
-      const filesPart = group.substring(lastSlashIndex + 1);
-
-      const files = filesPart.split(',').map(f => f.trim());
-
-      files.forEach(file => {
-        const fullPath = `${folderPath}/${file}`;
-        if (!seen.has(fullPath)) {
-          result.push(fullPath);
-          seen.add(fullPath);
+      parts.forEach(part => {
+        // Check if part is a full path (has '/')
+        if (part.includes('/')) {
+          if (!seen.has(part)) {
+            result.push(part);
+            seen.add(part);
+          }
+        } else {
+          // Handle relative names in case of grouped paths
+          const lastSlashIndex = group.lastIndexOf('/');
+          if (lastSlashIndex !== -1) {
+            const folder = group.substring(0, lastSlashIndex);
+            const fullPath = `${folder}/${part}`;
+            if (!seen.has(fullPath)) {
+              result.push(fullPath);
+              seen.add(fullPath);
+            }
+          } else {
+            if (!seen.has(part)) {
+              result.push(part);
+              seen.add(part);
+            }
+          }
         }
       });
     });
