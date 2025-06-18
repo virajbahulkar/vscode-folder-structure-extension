@@ -26,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
         structureInput = clipboard.trim();
       } else if (useClipboard === 'No') {
         structureInput = await vscode.window.showInputBox({
-          prompt: 'Enter folder structure manually',
+          prompt: 'Enter folder structure manually (Example: src/components/Button.tsx, Modal.tsx+src/utils/helpers.ts, services.ts or Example: src/components/Button.tsx, Modal.tsx+hooks/useApi.js, useData.js',
         }) || '';
       } else {
         // Prompt was closed without selection
@@ -34,8 +34,8 @@ export function activate(context: vscode.ExtensionContext) {
       }
     } else {
       structureInput = await vscode.window.showInputBox({
-        prompt: 'Enter folder structure or paste it here. Use indents or slash-separated format.',
-        placeHolder: 'Example: src/components/Button.tsx\nsrc/utils/helpers.ts'
+        prompt: 'Enter folder structure or paste it here. See the example.',
+        placeHolder: 'Example: src/components/Button.tsx, Modal.tsx+src/utils/helpers.ts, services.ts or Example: src/components/Button.tsx, Modal.tsx+hooks/useApi.js, useData.js'
       }) || '';
     }
 
