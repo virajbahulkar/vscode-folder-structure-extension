@@ -2,7 +2,7 @@
   "name": "my-folder-structure-generator",
   "displayName": "Folder Structure Creator",
   "description": "Generate a folder structure in one go by typing syntax manually or by copy pasting.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "VirajBahulkar",
   "engines": {
     "vscode": "^1.85.0"
