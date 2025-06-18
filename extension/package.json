@@ -2,7 +2,7 @@
   "name": "my-folder-structure-generator",
   "displayName": "Folder Structure Creator",
   "description": "Create a folder/file structure from a text file with indented hierarchy.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "VirajBahulkar",
   "engines": {
     "vscode": "^1.85.0"
