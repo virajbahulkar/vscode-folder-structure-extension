@@ -1,7 +1,7 @@
 {
   "name": "my-folder-structure-generator",
   "displayName": "Folder Structure Creator",
-  "description": "Create a folder/file structure from a text file with indented hierarchy.",
+  "description": "Generate a folder structure in one go by typing syntax manually or by copy pasting.",
   "version": "1.0.3",
   "publisher": "VirajBahulkar",
   "engines": {
